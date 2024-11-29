@@ -22,6 +22,8 @@ void App::run(int argc, char* argv[])
 
     initialize();
 
+    glutTimerFunc(16, instance->timerFunction, 0);
+    glutSpecialFunc(specialKeyFunction);
     glutDisplayFunc(renderFunction);
     glutCloseFunc(cleanup);
     glutMainLoop();
@@ -33,6 +35,31 @@ void App::initialize()
     camera = std::make_unique<Camera>();
     shader = std::make_shared<Shader>("shaders/app.vert", "shaders/app.frag");
     rubik = std::make_unique<Rubik>();
+}
+
+void App::timerFunction(int value)
+{
+    glutPostRedisplay(); // Request a redraw
+    glutTimerFunc(16, timerFunction, 0); // Schedule next timer event in ~16ms
+}
+
+void App::specialKeyFunction(int key, int x, int y)
+{
+    switch (key)
+    {
+    case GLUT_KEY_LEFT:
+        instance->camera->moveLeft();
+        break;
+    case GLUT_KEY_UP:
+        instance->camera->moveUp();
+        break;
+    case GLUT_KEY_RIGHT:
+        instance->camera->moveRight();
+        break;
+    case GLUT_KEY_DOWN:
+        instance->camera->moveDown();
+        break;
+    }
 }
 
 void App::renderFunction()

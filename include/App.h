@@ -23,6 +23,10 @@ class App
     std::shared_ptr<Rubik> rubik;
     
     void initialize();
+
+    static void timerFunction(int value);
+
+    static void specialKeyFunction(int key, int x, int y);
     static void renderFunction();
     static void cleanup();
 public:
