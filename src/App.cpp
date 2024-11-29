@@ -3,6 +3,8 @@
 #include "GL/glew.h"
 #include <GL/freeglut.h>
 
+#include "CubeFactory.h"
+
 std::shared_ptr<App> App::instance = nullptr;
 
 void App::run(int argc, char* argv[])
@@ -28,7 +30,7 @@ void App::run(int argc, char* argv[])
 void App::initialize()
 {
     shader = std::make_shared<Shader>("shaders/app.vert", "shaders/app.frag");
-    cubeRenderer = std::make_unique<CubeRenderer>();
+    cube = CubeFactory::createCube({1, 1, 1}, {0, 0, 0});
 }
 
 void App::renderFunction()
@@ -36,25 +38,25 @@ void App::renderFunction()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     instance->shader->use();
 
-    glm::mat4 perspective = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
+    glm::mat4 perspective = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
     // glm::mat4 perspective = glm::mat4(1);
     instance->shader->setMat4("projection", perspective);
 
     glm::mat4 view = glm::lookAt(
-        glm::vec3(0.0f, 0.0f, 3.0f), // Camera position
+        glm::vec3(0.0f, 0.0f, 14.0f), // Camera position
         glm::vec3(0.0f, 0.0f, 0.0f), // Target position
         glm::vec3(0.0f, 1.0f, 0.0f)  // Up vector
     );
     instance->shader->setMat4("view", view);
 
-    instance->cubeRenderer->render();
+    instance->cube->render(instance->shader);
 
     glutSwapBuffers();
 }
 
 void App::cleanup()
 {
-    instance->cubeRenderer->cleanup();
+    instance->cube->cleanup();
 }
 
 std::shared_ptr<App> App::getInstance() {

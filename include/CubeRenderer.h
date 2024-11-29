@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include "Shader.h"
+#include "glm/fwd.hpp"
 
 class CubeRenderer
 {
@@ -39,6 +41,6 @@ class CubeRenderer
 public:
     CubeRenderer();
 
-    void render() const;
+    void render(std::shared_ptr<Shader> shader, glm::vec3 size, glm::vec3 pos) const;
     void cleanup() const;
 };

@@ -2,8 +2,11 @@
 #include <memory>
 #include <string>
 
-#include "CubeRenderer.h"
+#include "Cube.h"
 #include "Shader.h"
+
+#include "CubeRenderer.h"
+
 
 class App
 {
@@ -14,7 +17,7 @@ class App
     std::string title = "OpenGL Rubik's Cube";
 
     std::shared_ptr<Shader> shader;
-    std::unique_ptr<CubeRenderer> cubeRenderer;
+    std::shared_ptr<Cube> cube;
     
     void initialize();
     static void renderFunction();
