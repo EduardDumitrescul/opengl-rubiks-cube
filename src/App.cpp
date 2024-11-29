@@ -27,6 +27,7 @@ void App::run(int argc, char* argv[])
 
     glutTimerFunc(16, instance->timerFunction, 0);
     glutSpecialFunc(specialKeyFunction);
+    glutKeyboardFunc(keyboardFunction);
     glutDisplayFunc(renderFunction);
     glutCloseFunc(cleanup);
     glutMainLoop();
@@ -44,6 +45,26 @@ void App::timerFunction(int value)
 {
     glutPostRedisplay(); // Request a redraw
     glutTimerFunc(16, timerFunction, 0); // Schedule next timer event in ~16ms
+}
+
+void App::keyboardFunction(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+        case 'u': {instance->rubik->makeMove(Move::UP);break;}
+        case 'd':{instance->rubik->makeMove(Move::DOWN);break;}
+        case 'l':{instance->rubik->makeMove(Move::LEFT);break;}
+        case 'r':{instance->rubik->makeMove(Move::RIGHT);break;}
+        case 'f':{instance->rubik->makeMove(Move::FRONT);break;}
+        case 'b': {instance->rubik->makeMove(Move::BACK);break;}
+        case 'U': {instance->rubik->makeMove(Move::UP_REVERSE);break;}
+        case 'D':{instance->rubik->makeMove(Move::DOWN_REVERSE);break;}
+        case 'L':{instance->rubik->makeMove(Move::LEFT_REVERSE);break;}
+        case 'R':{instance->rubik->makeMove(Move::RIGHT_REVERSE);break;}
+        case 'F':{instance->rubik->makeMove(Move::FRONT_REVERSE);break;}
+        case 'B': {instance->rubik->makeMove(Move::BACK_REVERSE);break;}
+        default: break;
+    }
 }
 
 void App::specialKeyFunction(int key, int x, int y)

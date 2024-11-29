@@ -3,9 +3,9 @@
 glm::vec3 Camera::getPosition()
 {
     return {
-        distance * cos(horizontalAngle) * cos(verticalAngle), 
+        distance * sin(horizontalAngle) * cos(verticalAngle), 
         distance * sin(verticalAngle),
-        distance * sin(horizontalAngle) * cos(verticalAngle),                    
+        distance * cos(horizontalAngle) * cos(verticalAngle),                    
     };
 }
 

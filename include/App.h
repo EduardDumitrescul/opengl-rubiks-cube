@@ -25,7 +25,7 @@ class App
     void initialize();
 
     static void timerFunction(int value);
-
+    static void keyboardFunction(unsigned char key, int x, int y);
     static void specialKeyFunction(int key, int x, int y);
     static void renderFunction();
     static void cleanup();

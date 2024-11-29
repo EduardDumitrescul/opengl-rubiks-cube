@@ -8,7 +8,7 @@ coloring(coloring), renderer(renderer), size(size), position(position)
 
 void Cube::render(std::shared_ptr<Shader> shader) const
 {
-    renderer->render(shader, size, position, coloring);
+    renderer->render(shader, size, position, rotation, coloring);
 }
 
 void Cube::cleanup()

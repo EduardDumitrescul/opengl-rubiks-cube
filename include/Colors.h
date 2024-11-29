@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "glm/vec4.hpp"
 
 enum Colors
 {

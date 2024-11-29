@@ -34,10 +34,18 @@ Rubik::Rubik()
             }
         }
     }
+
+    animationManager = std::make_unique<AnimationManager>(cubes);
+}
+
+void Rubik::makeMove(Move move)
+{
+    animationManager->startAnimation(move);
 }
 
 void Rubik::render(std::shared_ptr<Shader> shader)
 {
+    animationManager->update();
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
