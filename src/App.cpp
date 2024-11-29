@@ -4,6 +4,7 @@
 #include <GL/freeglut.h>
 
 #include "CubeFactory.h"
+#include "Rubik.h"
 
 std::shared_ptr<App> App::instance = nullptr;
 
@@ -30,7 +31,7 @@ void App::run(int argc, char* argv[])
 void App::initialize()
 {
     shader = std::make_shared<Shader>("shaders/app.vert", "shaders/app.frag");
-    cube = CubeFactory::createCube({1, 1, 1}, {0, 0, 0});
+    rubik = std::make_unique<Rubik>();
 }
 
 void App::renderFunction()
@@ -49,14 +50,14 @@ void App::renderFunction()
     );
     instance->shader->setMat4("view", view);
 
-    instance->cube->render(instance->shader);
+    instance->rubik->render(instance->shader);
 
     glutSwapBuffers();
 }
 
 void App::cleanup()
 {
-    instance->cube->cleanup();
+    instance->rubik->cleanup();
 }
 
 std::shared_ptr<App> App::getInstance() {

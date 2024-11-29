@@ -18,8 +18,8 @@ CubeRenderer::CubeRenderer()
 void CubeRenderer::render(std::shared_ptr<Shader> shader, glm::vec3 size, glm::vec3 pos) const
 {
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::scale(model, size);
     model = glm::translate(model, pos);
+    model = glm::scale(model, size);
     shader->setMat4("model", model);
     
     glBindVertexArray(vao);
