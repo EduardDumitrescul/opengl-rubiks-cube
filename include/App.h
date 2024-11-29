@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 
+#include "Camera.h"
 #include "Cube.h"
 #include "Shader.h"
 
@@ -17,6 +18,7 @@ class App
     int windowWidth = 800, windowHeight = 600;
     std::string title = "OpenGL Rubik's Cube";
 
+    std::unique_ptr<Camera> camera;
     std::shared_ptr<Shader> shader;
     std::shared_ptr<Rubik> rubik;
     

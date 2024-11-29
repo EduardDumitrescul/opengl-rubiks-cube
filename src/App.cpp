@@ -30,6 +30,7 @@ void App::run(int argc, char* argv[])
 
 void App::initialize()
 {
+    camera = std::make_unique<Camera>();
     shader = std::make_shared<Shader>("shaders/app.vert", "shaders/app.frag");
     rubik = std::make_unique<Rubik>();
 }
@@ -39,16 +40,7 @@ void App::renderFunction()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     instance->shader->use();
 
-    glm::mat4 perspective = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
-    // glm::mat4 perspective = glm::mat4(1);
-    instance->shader->setMat4("projection", perspective);
-
-    glm::mat4 view = glm::lookAt(
-        glm::vec3(0.0f, 0.0f, 14.0f), // Camera position
-        glm::vec3(0.0f, 0.0f, 0.0f), // Target position
-        glm::vec3(0.0f, 1.0f, 0.0f)  // Up vector
-    );
-    instance->shader->setMat4("view", view);
+    instance->camera->setup(instance->shader);
 
     instance->rubik->render(instance->shader);
 
