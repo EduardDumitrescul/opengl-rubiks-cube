@@ -640,7 +640,9 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     <ClInclude Include="include\01-01-square\square.h" />
     <ClInclude Include="include\App.h" />
     <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\Colors.h" />
     <ClInclude Include="include\Cube.h" />
+    <ClInclude Include="include\CubeColoring.h" />
     <ClInclude Include="include\CubeFactory.h" />
     <ClInclude Include="include\CubeRenderer.h" />
     <ClInclude Include="include\glad\glad.h" />

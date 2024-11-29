@@ -11,14 +11,17 @@ std::shared_ptr<App> App::instance = nullptr;
 void App::run(int argc, char* argv[])
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowPosition(windowPositionX, windowPositionY);
+    glutInitWindowSize(windowWidth, windowHeight);
+    glutCreateWindow(title.c_str());
+    glDepthMask(GL_TRUE);
     glEnable(GL_DEPTH_TEST);
-    glutInitWindowPosition(windowPositionX, windowPositionY); // pozitia initiala a ferestrei
-    glutInitWindowSize(windowWidth, windowHeight); //dimensiunile ferestrei
-    glutCreateWindow(title.c_str()); // titlul ferestrei
-
+    glDepthFunc(GL_LESS);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK); 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glewInit(); // nu uitati de initializare glew; trebuie initializat inainte de a a initializa desenarea
+    glewInit();
 
     initialize();
 
@@ -65,6 +68,7 @@ void App::specialKeyFunction(int key, int x, int y)
 void App::renderFunction()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     instance->shader->use();
 
     instance->camera->setup(instance->shader);

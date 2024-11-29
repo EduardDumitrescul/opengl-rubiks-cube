@@ -15,7 +15,7 @@ CubeRenderer::CubeRenderer()
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
-void CubeRenderer::render(std::shared_ptr<Shader> shader, glm::vec3 size, glm::vec3 pos) const
+void CubeRenderer::render(std::shared_ptr<Shader> shader, glm::vec3 size, glm::vec3 pos, CubeColoring coloring) const
 {
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, pos);
@@ -24,12 +24,24 @@ void CubeRenderer::render(std::shared_ptr<Shader> shader, glm::vec3 size, glm::v
     
     glBindVertexArray(vao);
     glLineWidth(2.0f);
-    glDrawArrays(GL_LINE_LOOP, 0, 4);
-    glDrawArrays(GL_LINE_LOOP, 4, 4);
-    glDrawArrays(GL_LINE_LOOP, 8, 4);
-    glDrawArrays(GL_LINE_LOOP, 12, 4);
-    glDrawArrays(GL_LINE_LOOP, 16, 4);
-    glDrawArrays(GL_LINE_LOOP, 20, 4);
+    glm::vec4 color = coloring.getColor(coloring.colors[CubeColoring::RIGHT]);
+    shader->setVec4("color", color);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    color = coloring.getColor(coloring.colors[CubeColoring::LEFT]);
+    shader->setVec4("color", color);
+    glDrawArrays(GL_TRIANGLE_FAN, 4, 4);
+    color = coloring.getColor(coloring.colors[CubeColoring::UP]);
+    shader->setVec4("color", color);
+    glDrawArrays(GL_TRIANGLE_FAN, 8, 4);
+    color = coloring.getColor(coloring.colors[CubeColoring::DOWN]);
+    shader->setVec4("color", color);
+    glDrawArrays(GL_TRIANGLE_FAN, 12, 4);
+    color = coloring.getColor(coloring.colors[CubeColoring::FRONT]);
+    shader->setVec4("color", color);
+    glDrawArrays(GL_TRIANGLE_FAN, 16, 4);
+    color = coloring.getColor(coloring.colors[CubeColoring::BACK]);
+    shader->setVec4("color", color);
+    glDrawArrays(GL_TRIANGLE_FAN, 20, 4);
 }
 
 void CubeRenderer::cleanup() const
