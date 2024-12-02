@@ -18,8 +18,6 @@ class Camera
     glm::vec3 targetPosition = glm::vec3(0.0f, 0.0f, 0.0f);
     glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    glm::vec3 getPosition();
-
     glm::mat4 getProjectionMatrix();
 
     glm::mat4 getViewMatrix();
@@ -32,5 +30,7 @@ public:
 
     void moveDown();
 
+    glm::vec3 getPosition();
+    
     void setup(std::shared_ptr<Shader> shader);
 };

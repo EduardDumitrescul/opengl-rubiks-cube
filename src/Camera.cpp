@@ -49,4 +49,6 @@ void Camera::setup(std::shared_ptr<Shader> shader)
     glm::mat4 viewMatrix = getViewMatrix();
     shader->setMat4("projection", projectionMatrix);
     shader->setMat4("view", viewMatrix);
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    shader->setMat4("model", modelMatrix);
 }

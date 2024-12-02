@@ -94,8 +94,10 @@ void App::renderFunction()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     instance->shader->use();
-
     instance->camera->setup(instance->shader);
+    instance->shader->setVec3("lightPos", glm::vec3(0.0f, 10.0f, 10.0f));
+    instance->shader->setVec3("viewPos", instance->camera->getPosition());
+    instance->shader->setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
     instance->rubik->render(instance->shader);
 
