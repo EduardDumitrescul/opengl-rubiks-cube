@@ -4,7 +4,6 @@
 #include <GL/freeglut.h>
 
 #include "CubeFactory.h"
-#include "Rubik.h"
 
 std::shared_ptr<App> App::instance = nullptr;
 
@@ -40,6 +39,7 @@ void App::initialize()
     shader = std::make_shared<Shader>("shaders/app.vert", "shaders/app.frag");
     rubik = std::make_shared<Rubik>();
     shuffler = std::make_unique<RubikShuffler>(rubik);
+    solver = std::make_unique<Solver>(rubik);
 }
 
 void App::timerFunction(int value)
@@ -65,6 +65,7 @@ void App::keyboardFunction(unsigned char key, int x, int y)
         case 'F':{instance->rubik->performMove(Move::FRONT_REVERSE, []{});break;}
         case 'B': {instance->rubik->performMove(Move::BACK_REVERSE, []{});break;}
         case '1': {instance->shuffler->shuffle(); break;}
+        case '2': {instance->solver->run(); break;}
         default: break;
     }
 }

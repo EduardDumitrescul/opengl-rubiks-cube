@@ -176,6 +176,7 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\glm\detail\glm.cpp" />
+    <ClCompile Include="include\Solver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\01-01-square\square-app.cpp" />
     <ClCompile Include="src\01-01-square\square.cpp" />
@@ -1173,6 +1174,7 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     <ClInclude Include="include\RubikShuffler.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\SOIL.h" />
+    <ClInclude Include="include\Solver.h" />
     <ClInclude Include="include\Texture.h" />
   </ItemGroup>
   <ItemGroup>

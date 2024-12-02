@@ -8,7 +8,7 @@
 class RubikShuffler
 {
     std::shared_ptr<Rubik> rubik;
-    static const int MOVES = 32; 
+    static const int MOVES = 12; 
 
 public:
     RubikShuffler(std::shared_ptr<Rubik> rubik);

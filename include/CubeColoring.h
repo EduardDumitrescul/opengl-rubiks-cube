@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <string>
 #include <vector>
 #include "Colors.h"
 #include "glm/vec4.hpp"
@@ -36,6 +37,36 @@ struct CubeColoring {
 
     // Rotate the colors of the cube's faces counterclockwise on the Z-axis (Front/Back)
     void rotateZCounterClockwise();
+
+    std::string toString() const
+    {
+        std::string string = "";
+        for (int i = 0; i < colors.size(); i++)
+        {
+            switch (colors[i])
+            {
+                case Colors::RED: string += "R"; break;
+                case Colors::GREEN: string += "G"; break;
+                case Colors::BLUE: string += "B"; break;
+                case Colors::YELLOW: string += "Y"; break;
+                case Colors::WHITE: string += "W"; break;
+                case Colors::BLACK: string += "."; break;
+                case Colors::ORANGE: string += "O"; break;
+            }
+        }
+        string += "-";
+        return string;
+    }
+
+    bool operator == (const CubeColoring& other) const
+    {
+        return toString() == other.toString();
+    }
+
+    bool operator != (const CubeColoring& other) const
+    {
+        return toString() != other.toString();
+    }
 };
 
 inline CubeColoring::CubeColoring()

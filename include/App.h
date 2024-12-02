@@ -9,6 +9,7 @@
 #include "CubeRenderer.h"
 #include "Rubik.h"
 #include "RubikShuffler.h"
+#include "Solver.h"
 
 
 class App
@@ -24,6 +25,7 @@ class App
     std::shared_ptr<Rubik> rubik;
 
     std::shared_ptr<RubikShuffler> shuffler;
+    std::shared_ptr<Solver> solver;
     
     void initialize();
 
