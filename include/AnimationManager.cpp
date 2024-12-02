@@ -23,7 +23,7 @@ void AnimationManager::update()
             angle = glm::radians(90.0f);
             animationRunning = false;
             animationFinishedCallback();
-            animationFinishedCallback = nullptr;
+            // animationFinishedCallback = nullptr;
             angle = 0;
             return;
         }
@@ -31,7 +31,7 @@ void AnimationManager::update()
             angle = glm::radians(-90.0f);
             animationRunning = false;
             animationFinishedCallback();
-            animationFinishedCallback = nullptr;
+            // animationFinishedCallback = nullptr;
             angle = 0;
             return;
         }

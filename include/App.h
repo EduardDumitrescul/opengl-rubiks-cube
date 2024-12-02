@@ -8,6 +8,7 @@
 
 #include "CubeRenderer.h"
 #include "Rubik.h"
+#include "RubikShuffler.h"
 
 
 class App
@@ -21,6 +22,8 @@ class App
     std::unique_ptr<Camera> camera;
     std::shared_ptr<Shader> shader;
     std::shared_ptr<Rubik> rubik;
+
+    std::shared_ptr<RubikShuffler> shuffler;
     
     void initialize();
 

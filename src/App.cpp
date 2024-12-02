@@ -38,7 +38,8 @@ void App::initialize()
 {
     camera = std::make_unique<Camera>();
     shader = std::make_shared<Shader>("shaders/app.vert", "shaders/app.frag");
-    rubik = std::make_unique<Rubik>();
+    rubik = std::make_shared<Rubik>();
+    shuffler = std::make_unique<RubikShuffler>(rubik);
 }
 
 void App::timerFunction(int value)
@@ -51,18 +52,19 @@ void App::keyboardFunction(unsigned char key, int x, int y)
 {
     switch (key)
     {
-        case 'u': {instance->rubik->makeMove(Move::UP);break;}
-        case 'd':{instance->rubik->makeMove(Move::DOWN);break;}
-        case 'l':{instance->rubik->makeMove(Move::LEFT);break;}
-        case 'r':{instance->rubik->makeMove(Move::RIGHT);break;}
-        case 'f':{instance->rubik->makeMove(Move::FRONT);break;}
-        case 'b': {instance->rubik->makeMove(Move::BACK);break;}
-        case 'U': {instance->rubik->makeMove(Move::UP_REVERSE);break;}
-        case 'D':{instance->rubik->makeMove(Move::DOWN_REVERSE);break;}
-        case 'L':{instance->rubik->makeMove(Move::LEFT_REVERSE);break;}
-        case 'R':{instance->rubik->makeMove(Move::RIGHT_REVERSE);break;}
-        case 'F':{instance->rubik->makeMove(Move::FRONT_REVERSE);break;}
-        case 'B': {instance->rubik->makeMove(Move::BACK_REVERSE);break;}
+        case 'u': {instance->rubik->performMove(Move::UP, []{});break;}
+        case 'd':{instance->rubik->performMove(Move::DOWN, []{});break;}
+        case 'l':{instance->rubik->performMove(Move::LEFT, []{});break;}
+        case 'r':{instance->rubik->performMove(Move::RIGHT, []{});break;}
+        case 'f':{instance->rubik->performMove(Move::FRONT, []{});break;}
+        case 'b': {instance->rubik->performMove(Move::BACK, []{});break;}
+        case 'U': {instance->rubik->performMove(Move::UP_REVERSE, []{});break;}
+        case 'D':{instance->rubik->performMove(Move::DOWN_REVERSE, []{});break;}
+        case 'L':{instance->rubik->performMove(Move::LEFT_REVERSE, []{});break;}
+        case 'R':{instance->rubik->performMove(Move::RIGHT_REVERSE, []{});break;}
+        case 'F':{instance->rubik->performMove(Move::FRONT_REVERSE, []{});break;}
+        case 'B': {instance->rubik->performMove(Move::BACK_REVERSE, []{});break;}
+        case '1': {instance->shuffler->shuffle(); break;}
         default: break;
     }
 }

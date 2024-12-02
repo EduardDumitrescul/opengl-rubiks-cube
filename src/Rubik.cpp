@@ -41,12 +41,16 @@ Rubik::Rubik()
     moveHandler = std::make_unique<MoveHandler>(cubes);
 }
 
-void Rubik::makeMove(Move move)
+bool Rubik::isBusy()
 {
-    auto callback = [this, move]() {
+    return busy;
+}
+
+void Rubik::performMove(Move move, std::function<void()>onMoveFinished)
+{
+    auto callback = [this, move, onMoveFinished]() {
         moveHandler->performMove(move);
 
-        std::cout << "RUBIK" << std::endl;
         for (int i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 3; ++j)
@@ -55,10 +59,10 @@ void Rubik::makeMove(Move move)
                 {
                     cubes[i][j][k]->removeRotation();
                     cubes[i][j][k]->setPosition({i-1, j-1, k-1});
-                    std::cout << cubes[i][j][k]->getPosition().x << '\n';
                 }
             }
         }
+        onMoveFinished();
     };
     animationManager->startAnimation(move, callback);
 
