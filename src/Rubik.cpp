@@ -1,5 +1,7 @@
 ﻿#include "Rubik.h"
 
+#include "CubeFactory.h"
+
 Rubik::Rubik()
 {
     
@@ -36,11 +38,31 @@ Rubik::Rubik()
     }
 
     animationManager = std::make_unique<AnimationManager>(cubes);
+    moveHandler = std::make_unique<MoveHandler>(cubes);
 }
 
 void Rubik::makeMove(Move move)
 {
-    animationManager->startAnimation(move);
+    auto callback = [this, move]() {
+        moveHandler->performMove(move);
+
+        std::cout << "RUBIK" << std::endl;
+        for (int i = 0; i < 3; ++i)
+        {
+            for (int j = 0; j < 3; ++j)
+            {
+                for (int k = 0; k < 3; ++k)
+                {
+                    cubes[i][j][k]->removeRotation();
+                    cubes[i][j][k]->setPosition({i-1, j-1, k-1});
+                    std::cout << cubes[i][j][k]->getPosition().x << '\n';
+                }
+            }
+        }
+    };
+    animationManager->startAnimation(move, callback);
+
+    
 }
 
 void Rubik::render(std::shared_ptr<Shader> shader)

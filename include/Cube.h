@@ -17,24 +17,24 @@ class Cube
 public:
     Cube(std::shared_ptr<CubeRenderer> renderer, glm::vec3 size, glm::vec3 position, CubeColoring coloring);
 
-    glm::vec3 getPosition()
-    {
-        return position;
-    }
+    glm::vec3 getPosition();
 
-    void setPosition(glm::vec3 position)
-    {
-        this->position = position;
-    }
-    
-    void rotate(glm::vec3 delta)
-    {
-        rotation += delta;
-    }
-    
+    void setPosition(glm::vec3 position);
+
+    void rotate(glm::vec3 delta);
+
+    void removeRotation();
+
     void render(std::shared_ptr<Shader> shader) const;
 
     void cleanup();
+    CubeColoring getColoring();
+
+    void rotateXClockwise(int times);
+
+    void rotateYClockwise(int times);
+
+    void rotateZClockwise(int times);
 };
 
 

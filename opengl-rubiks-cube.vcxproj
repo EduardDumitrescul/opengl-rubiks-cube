@@ -177,6 +177,7 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
   <ItemGroup>
     <ClCompile Include="include\AnimationManager.cpp" />
     <ClCompile Include="include\glm\detail\glm.cpp" />
+    <ClCompile Include="include\MoveHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\01-01-square\square-app.cpp" />
     <ClCompile Include="src\01-01-square\square.cpp" />
@@ -944,6 +945,7 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     <ClInclude Include="include\KHR\khrplatform.h" />
     <ClInclude Include="include\loadShaders.h" />
     <ClInclude Include="include\Move.h" />
+    <ClInclude Include="include\MoveHandler.h" />
     <ClInclude Include="include\Rubik.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\SOIL.h" />

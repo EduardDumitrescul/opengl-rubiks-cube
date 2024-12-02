@@ -3,10 +3,11 @@
 
 #include "AnimationManager.h"
 #include "Cube.h"
-#include "CubeFactory.h"
+#include "MoveHandler.h"
 
 class Rubik
 {
+    std::unique_ptr<MoveHandler> moveHandler;
     std::unique_ptr<AnimationManager> animationManager;
     std::shared_ptr<Cube> cubes[3][3][3];
     
