@@ -16,14 +16,16 @@ void Cube::setPosition(glm::vec3 position)
     this->position = position;
 }
 
-void Cube::rotate(glm::vec3 delta)
+void Cube::setAnimationPosition(glm::vec3 animationPosition)
 {
-    rotation += delta;
+    this->animationPosition = animationPosition;
 }
 
 void Cube::removeRotation()
 {
-    rotation = {0, 0,0};
+    rotation = {1, 0,0, 0};
+    animationRotation = {1, 0, 0, 0};
+    animationPosition = {0, 0, 0};
 }
 
 CubeColoring Cube::getColoring()
@@ -55,9 +57,19 @@ void Cube::rotateZClockwise(int times)
     }
 }
 
+glm::quat Cube::getRotation()
+{
+    return this->rotation * animationRotation;
+}
+
+void Cube::setAnimationRotation(glm::quat qua)
+{
+    this->animationRotation = qua;
+}
+
 void Cube::render(std::shared_ptr<Shader> shader) const
 {
-    renderer->render(shader, size, position, rotation, coloring);
+    renderer->render(shader, size, position + animationPosition, rotation * animationRotation, coloring);
 }
 
 void Cube::cleanup()

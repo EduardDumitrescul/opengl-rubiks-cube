@@ -20,6 +20,9 @@ class App
     int windowWidth = 800, windowHeight = 600;
     std::string title = "OpenGL Rubik's Cube";
 
+    int lastTime = 0;
+    int deltaTime = 0;
+
     std::unique_ptr<Camera> camera;
     std::shared_ptr<Shader> shader;
     std::shared_ptr<Rubik> rubik;

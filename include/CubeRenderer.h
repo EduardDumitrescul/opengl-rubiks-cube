@@ -48,6 +48,6 @@ class CubeRenderer
 public:
     CubeRenderer();
 
-    void render(std::shared_ptr<Shader> shader, glm::vec3 size, glm::vec3 pos, glm::vec3 rotation, CubeColoring coloring) const;
+    void render(std::shared_ptr<Shader> shader, glm::vec3 size, glm::vec3 pos, glm::quat rotation, CubeColoring coloring) const;
     void cleanup() const;
 };

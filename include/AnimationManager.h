@@ -11,6 +11,8 @@ class AnimationManager
     std::shared_ptr<Cube> (&cubes)[3][3][3];
     
     bool animationRunning = false;
+    static int animationDuration;
+    int animationProgress;
     float angle = 0;
     float step = 0.1f;
     std::function<void()> animationFinishedCallback;
@@ -21,9 +23,9 @@ public:
 
     void startAnimation(Move move, std::function<void()> callback);
 
-    void update();
+    void update(int deltaTimestamp);
 
-    void rotateUp(bool reverse = false);
+    void rotateUp(bool reverse = false, int deltaTime = animationDuration);
 
     void rotateDown(bool reverse = false);
 

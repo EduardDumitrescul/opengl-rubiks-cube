@@ -1,5 +1,7 @@
 ﻿#include "AnimationManager.h"
 
+int AnimationManager::animationDuration = 250;
+
 AnimationManager::AnimationManager(std::shared_ptr<Cube>(& cubes)[3][3][3]): cubes(cubes)
 {
 }
@@ -8,37 +10,46 @@ void AnimationManager::startAnimation(Move move, std::function<void()> callback)
 {
     if (animationRunning == false)
     {
+        this->animationProgress = 0;
         this->move = move;
         animationRunning = true;
         this->animationFinishedCallback = callback;
     }
 }
 
-void AnimationManager::update()
+void AnimationManager::update(int deltaTimestamp)
 {
     if (animationRunning)
     {
-        angle += step;
-        if (angle >= glm::radians(90.0f)) {
-            angle = glm::radians(90.0f);
+        animationProgress += deltaTimestamp;
+        if (animationProgress >= animationDuration)
+        {
+            animationProgress = animationDuration;
             animationRunning = false;
             animationFinishedCallback();
-            // animationFinishedCallback = nullptr;
-            angle = 0;
             return;
-        }
-        if (angle <= glm::radians(-90.0f)) {
-            angle = glm::radians(-90.0f);
-            animationRunning = false;
-            animationFinishedCallback();
-            // animationFinishedCallback = nullptr;
-            angle = 0;
-            return;
-        }
+        }   
+        
+        // if (angle >= glm::radians(90.0f)) {
+        //     angle = glm::radians(90.0f);
+        //     animationRunning = false;
+        //     animationFinishedCallback();
+        //     // animationFinishedCallback = nullptr;
+        //     angle = 0;
+        //     return;
+        // }
+        // if (angle <= glm::radians(-90.0f)) {
+        //     angle = glm::radians(-90.0f);
+        //     animationRunning = false;
+        //     animationFinishedCallback();
+        //     // animationFinishedCallback = nullptr;
+        //     angle = 0;
+        //     return;
+        // }
 
         switch (move)
         {
-        case Move::UP: {rotateUp();break;}
+        case Move::UP: {rotateUp(false, deltaTimestamp);break;}
         case Move::DOWN:{rotateDown();break;}
         case Move::FRONT:{rotateFront();break;}
         case Move::BACK:{rotateBack();break;}
@@ -58,32 +69,35 @@ void AnimationManager::update()
             
     }
 }
-
-void AnimationManager::rotateUp(bool reverse)
+void AnimationManager::rotateUp(bool reverse, int deltaTime)
 {
-    int sign = 1;
+    float sign = -1;
     if (reverse)
     {
-        sign = -1;
+        sign = 1;
     }
-        
+
     for (int i = 0; i < 3; i++)
     {
         int j = 2;
         for (int k = 0; k < 3; k++)
         {
-            cubes[i][j][k]->rotate({0, -sign * step, 0});
-            glm::vec4 pos = glm::vec4(cubes[i][j][k]->getPosition(), 1);
-            glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), sign * step, glm::vec3(0, -1, 0));
-            pos = rotationMatrix * pos;
-            cubes[i][j][k]->setPosition(glm::vec3(pos));
+            glm::quat deltaRotation = glm::angleAxis(glm::radians(90.0f) * sign, glm::vec3(0.0f, 1.0f, 0.0f));
+            glm::quat interpolatedRotation = glm::slerp({1, 0, 0, 0}, deltaRotation, 1.0f * animationProgress / animationDuration);
+            cubes[i][j][k]->setAnimationRotation(interpolatedRotation);
+            
+            glm::vec3 currentPosition = cubes[i][j][k]->getPosition();
+            glm::vec3 positionRelativeToAxis = glm::vec3(currentPosition.x, 0.0f, currentPosition.z);
+            glm::vec3 rotatedPosition = interpolatedRotation * positionRelativeToAxis;
+            cubes[i][j][k]->setAnimationPosition(rotatedPosition - positionRelativeToAxis );
+
         }
     }
 }
 
 void AnimationManager::rotateDown(bool reverse)
 {
-    int sign = 1;
+    float sign = 1;
     if (reverse)
     {
         sign = -1;
@@ -94,21 +108,24 @@ void AnimationManager::rotateDown(bool reverse)
         int j = 0;
         for (int k = 0; k < 3; k++)
         {
-            cubes[i][j][k]->rotate({0, sign * step, 0});
-            glm::vec4 pos = glm::vec4(cubes[i][j][k]->getPosition(), 1);
-            glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), sign * step, glm::vec3(0, 1, 0));
-            pos = rotationMatrix * pos;
-            cubes[i][j][k]->setPosition(glm::vec3(pos));
+            glm::quat deltaRotation = glm::angleAxis(glm::radians(90.0f) * sign, glm::vec3(0.0f, 1.0f, 0.0f));
+            glm::quat interpolatedRotation = glm::slerp({1, 0, 0, 0}, deltaRotation, 1.0f * animationProgress / animationDuration);
+            cubes[i][j][k]->setAnimationRotation(interpolatedRotation);
+            
+            glm::vec3 currentPosition = cubes[i][j][k]->getPosition();
+            glm::vec3 positionRelativeToAxis = glm::vec3(currentPosition.x, 0.0f, currentPosition.z);
+            glm::vec3 rotatedPosition = interpolatedRotation * positionRelativeToAxis;
+            cubes[i][j][k]->setAnimationPosition(rotatedPosition - positionRelativeToAxis );
         }
     }
 }
 
 void AnimationManager::rotateFront(bool reverse)
 {
-    int sign = 1;
+    float sign = -1;
     if (reverse)
     {
-        sign = -1;
+        sign = 1;
     }
         
     for (int i = 0; i < 3; i++)
@@ -116,18 +133,21 @@ void AnimationManager::rotateFront(bool reverse)
         int k = 2;
         for (int j = 0; j < 3; j++)
         {
-            cubes[i][j][k]->rotate({0, 0, -sign * step});
-            glm::vec4 pos = glm::vec4(cubes[i][j][k]->getPosition(), 1);
-            glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), sign * step, glm::vec3(0, 0, -1));
-            pos = rotationMatrix * pos;
-            cubes[i][j][k]->setPosition(glm::vec3(pos));
+            glm::quat deltaRotation = glm::angleAxis(glm::radians(90.0f) * sign, glm::vec3(0.0f, 0.0f, 1.0f));
+            glm::quat interpolatedRotation = glm::slerp({1, 0, 0, 0}, deltaRotation, 1.0f * animationProgress / animationDuration);
+            cubes[i][j][k]->setAnimationRotation(interpolatedRotation);
+            
+            glm::vec3 currentPosition = cubes[i][j][k]->getPosition();
+            glm::vec3 positionRelativeToAxis = glm::vec3(currentPosition.x, currentPosition.y, 0.0f);
+            glm::vec3 rotatedPosition = interpolatedRotation * positionRelativeToAxis;
+            cubes[i][j][k]->setAnimationPosition(rotatedPosition - positionRelativeToAxis );
         }
     }
 }
 
 void AnimationManager::rotateBack(bool reverse)
 {
-    int sign = 1;
+    float sign = 1;
     if (reverse)
     {
         sign = -1;
@@ -138,18 +158,21 @@ void AnimationManager::rotateBack(bool reverse)
         int k = 0;
         for (int j = 0; j < 3; j++)
         {
-            cubes[i][j][k]->rotate({0, 0, sign * step,});
-            glm::vec4 pos = glm::vec4(cubes[i][j][k]->getPosition(), 1);
-            glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), sign * step, glm::vec3(0, 0, 1));
-            pos = rotationMatrix * pos;
-            cubes[i][j][k]->setPosition(glm::vec3(pos));
+            glm::quat deltaRotation = glm::angleAxis(glm::radians(90.0f) * sign, glm::vec3(0.0f, 0.0f, 1.0f));
+            glm::quat interpolatedRotation = glm::slerp({1, 0, 0, 0}, deltaRotation, 1.0f * animationProgress / animationDuration);
+            cubes[i][j][k]->setAnimationRotation(interpolatedRotation);
+            
+            glm::vec3 currentPosition = cubes[i][j][k]->getPosition();
+            glm::vec3 positionRelativeToAxis = glm::vec3(currentPosition.x, currentPosition.y, 0.0f);
+            glm::vec3 rotatedPosition = interpolatedRotation * positionRelativeToAxis;
+            cubes[i][j][k]->setAnimationPosition(rotatedPosition - positionRelativeToAxis );
         }
     }
 }
 
 void AnimationManager::rotateLeft(bool reverse)
 {
-    int sign = 1;
+    float sign = 1;
     if (reverse)
     {
         sign = -1;
@@ -160,21 +183,24 @@ void AnimationManager::rotateLeft(bool reverse)
         int i = 0;
         for (int j = 0; j < 3; j++)
         {
-            cubes[i][j][k]->rotate({sign * step, 0, 0});
-            glm::vec4 pos = glm::vec4(cubes[i][j][k]->getPosition(), 1);
-            glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), sign * step, glm::vec3(1, 0, 0));
-            pos = rotationMatrix * pos;
-            cubes[i][j][k]->setPosition(glm::vec3(pos));
+            glm::quat deltaRotation = glm::angleAxis(glm::radians(90.0f) * sign, glm::vec3(1.0f, 0.0f, 0.0f));
+            glm::quat interpolatedRotation = glm::slerp({1, 0, 0, 0}, deltaRotation, 1.0f * animationProgress / animationDuration);
+            cubes[i][j][k]->setAnimationRotation(interpolatedRotation);
+            
+            glm::vec3 currentPosition = cubes[i][j][k]->getPosition();
+            glm::vec3 positionRelativeToAxis = glm::vec3(0, currentPosition.y, currentPosition.z);
+            glm::vec3 rotatedPosition = interpolatedRotation * positionRelativeToAxis;
+            cubes[i][j][k]->setAnimationPosition(rotatedPosition - positionRelativeToAxis );
         }
     }
 }
 
 void AnimationManager::rotateRight(bool reverse)
 {
-    int sign = 1;
+    float sign = -1;
     if (reverse)
     {
-        sign = -1;
+        sign = 1;
     }
         
     for (int k = 0; k < 3; k++)
@@ -182,11 +208,14 @@ void AnimationManager::rotateRight(bool reverse)
         int i = 2;
         for (int j = 0; j < 3; j++)
         {
-            cubes[i][j][k]->rotate({-sign * step, 0, 0});
-            glm::vec4 pos = glm::vec4(cubes[i][j][k]->getPosition(), 1);
-            glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), sign * step, glm::vec3(-1, 0, 0));
-            pos = rotationMatrix * pos;
-            cubes[i][j][k]->setPosition(glm::vec3(pos));
+            glm::quat deltaRotation = glm::angleAxis(glm::radians(90.0f) * sign, glm::vec3(1.0f, 0.0f, 0.0f));
+            glm::quat interpolatedRotation = glm::slerp({1, 0, 0, 0}, deltaRotation, 1.0f * animationProgress / animationDuration);
+            cubes[i][j][k]->setAnimationRotation(interpolatedRotation);
+            
+            glm::vec3 currentPosition = cubes[i][j][k]->getPosition();
+            glm::vec3 positionRelativeToAxis = glm::vec3(0, currentPosition.y, currentPosition.z);
+            glm::vec3 rotatedPosition = interpolatedRotation * positionRelativeToAxis;
+            cubes[i][j][k]->setAnimationPosition(rotatedPosition - positionRelativeToAxis );
         }
     }
 }

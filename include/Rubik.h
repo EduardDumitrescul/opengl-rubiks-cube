@@ -20,7 +20,7 @@ public:
     
     void performMove(Move move, std::function<void()> onMoveFinished, bool animation = true);
 
-    void render(std::shared_ptr<Shader> shader);
+    void render(std::shared_ptr<Shader> shader, int deltaTime);
 
     void cleanup();
 

@@ -11,7 +11,9 @@ class Cube
 
     glm::vec3 size = {1, 1, 1};
     glm::vec3 position = {0, 0, 0};
-    glm::vec3 rotation = {0, 0, 0};
+    glm::vec3 animationPosition = {0, 0, 0};
+    glm::quat rotation = {1,0 , 0, 0};
+    glm::quat animationRotation = {1, 0, 0, 0};
     
     CubeColoring coloring;
 public:
@@ -31,7 +33,7 @@ public:
 
     void setPosition(glm::vec3 position);
 
-    void rotate(glm::vec3 delta);
+    void setAnimationPosition(glm::vec3 animationPosition);
 
     void removeRotation();
 
@@ -55,6 +57,10 @@ public:
     {
         return coloring.toString();
     }
+
+    glm::quat getRotation();
+
+    void setAnimationRotation(glm::quat qua);
 };
 
 

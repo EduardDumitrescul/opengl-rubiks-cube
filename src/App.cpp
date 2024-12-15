@@ -44,6 +44,9 @@ void App::initialize()
 
 void App::timerFunction(int value)
 {
+    int currentTime = glutGet(GLUT_ELAPSED_TIME); // Get current time in milliseconds
+    instance->deltaTime = (currentTime - instance->lastTime); // Calculate delta time in seconds
+    instance->lastTime = currentTime;
     glutPostRedisplay(); // Request a redraw
     glutTimerFunc(16, timerFunction, 0); // Schedule next timer event in ~16ms
 }
@@ -52,18 +55,18 @@ void App::keyboardFunction(unsigned char key, int x, int y)
 {
     switch (key)
     {
-        case 'u': {instance->rubik->performMove(Move::UP, []{});break;}
-        case 'd':{instance->rubik->performMove(Move::DOWN, []{});break;}
-        case 'l':{instance->rubik->performMove(Move::LEFT, []{});break;}
-        case 'r':{instance->rubik->performMove(Move::RIGHT, []{});break;}
-        case 'f':{instance->rubik->performMove(Move::FRONT, []{});break;}
-        case 'b': {instance->rubik->performMove(Move::BACK, []{});break;}
-        case 'U': {instance->rubik->performMove(Move::UP_REVERSE, []{});break;}
-        case 'D':{instance->rubik->performMove(Move::DOWN_REVERSE, []{});break;}
-        case 'L':{instance->rubik->performMove(Move::LEFT_REVERSE, []{});break;}
-        case 'R':{instance->rubik->performMove(Move::RIGHT_REVERSE, []{});break;}
-        case 'F':{instance->rubik->performMove(Move::FRONT_REVERSE, []{});break;}
-        case 'B': {instance->rubik->performMove(Move::BACK_REVERSE, []{});break;}
+        case 'u': {instance->rubik->performMove(Move::UP, []{}, true);break;}
+        case 'd':{instance->rubik->performMove(Move::DOWN, []{}, true);break;}
+        case 'l':{instance->rubik->performMove(Move::LEFT, []{}, true);break;}
+        case 'r':{instance->rubik->performMove(Move::RIGHT, []{}, true);break;}
+        case 'f':{instance->rubik->performMove(Move::FRONT, []{}, true);break;}
+        case 'b': {instance->rubik->performMove(Move::BACK, []{}, true);break;}
+        case 'U': {instance->rubik->performMove(Move::UP_REVERSE, []{}, true);break;}
+        case 'D':{instance->rubik->performMove(Move::DOWN_REVERSE, []{}, true);break;}
+        case 'L':{instance->rubik->performMove(Move::LEFT_REVERSE, []{}, true);break;}
+        case 'R':{instance->rubik->performMove(Move::RIGHT_REVERSE, []{}, true);break;}
+        case 'F':{instance->rubik->performMove(Move::FRONT_REVERSE, []{}, true);break;}
+        case 'B': {instance->rubik->performMove(Move::BACK_REVERSE, []{}, true);break;}
         case '1': {instance->shuffler->shuffle(); break;}
         case '2': {instance->solver->run(); break;}
         case '-': {instance->camera->decreaseDistance(); break;}
@@ -103,7 +106,7 @@ void App::renderFunction()
     instance->shader->setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
     instance->shader->setVec3("fogColor", glm::vec3(0.2f, 0.2f, 0.2f)); // Fog color
     instance->shader->setFloat("density", 0.05f);
-    instance->rubik->render(instance->shader);
+    instance->rubik->render(instance->shader, instance->deltaTime);
 
     glutSwapBuffers();
 }

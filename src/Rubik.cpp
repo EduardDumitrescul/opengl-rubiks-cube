@@ -85,9 +85,9 @@ void Rubik::performMove(Move move, std::function<void()>onMoveFinished, bool ani
     
 }
 
-void Rubik::render(std::shared_ptr<Shader> shader)
+void Rubik::render(std::shared_ptr<Shader> shader, int deltaTime)
 {
-    animationManager->update();
+    animationManager->update(deltaTime);
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
