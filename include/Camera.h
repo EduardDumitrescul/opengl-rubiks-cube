@@ -14,7 +14,7 @@ class Camera
     float horizontalAngle = 0;
     float horizontalAngleStep = 0.1;
     float verticalAngle = 0;
-    float verticalAngleStep = 0.1;
+    float verticalAngleStep = 0.01;
     
     glm::vec3 targetPosition = glm::vec3(0.0f, 0.0f, 0.0f);
     glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
