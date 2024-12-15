@@ -24,7 +24,7 @@ uniform vec3 lightColor;
 void main(void)
 {
   //  Ambient;
-  float ambientStrength = 0.2f;
+  float ambientStrength = 0.5f;
   vec3 ambient_light = ambientStrength * lightColor;          //  ambient_light=ambientStrength*lightColor; 
   vec3 ambient_term= ambient_light * vec3(color);             //  ambient_material=objectColor;
 
@@ -36,8 +36,8 @@ void main(void)
   vec3 diffuse_term = diff * diffuse_light * vec3(color);     //  diffuse_material=objectColor;
 
   //  Specular;
-  float specularStrength = 0.2f;
-  float shininess = 1000.0f;
+  float specularStrength = 0.8f;
+  float shininess = 32.0f;
   vec3 viewDir = normalize(inViewPos - FragPos);              //  versorul catre observator;
   vec3 reflectDir = normalize(reflect(-lightDir, norm));      //  versorul vectorului R;
   float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);

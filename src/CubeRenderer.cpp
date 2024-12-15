@@ -14,7 +14,7 @@ CubeRenderer::CubeRenderer()
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), 0);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float),  (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float),  (void*)(4 * sizeof(float)));
 }
 
 void CubeRenderer::render(std::shared_ptr<Shader> shader, glm::vec3 size, glm::vec3 pos, glm::vec3 rotation, CubeColoring coloring) const

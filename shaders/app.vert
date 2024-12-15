@@ -24,6 +24,6 @@ void main(void)
    Normal=vec3(mat3(transpose(inverse(model))) * in_Normal);
    inLightPos= lightPos;
    inViewPos= viewPos;
-   FragPos = vec3(gl_Position);
+   FragPos = vec3(model * in_Position);
 } 
 
