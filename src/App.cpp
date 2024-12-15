@@ -40,6 +40,7 @@ void App::initialize()
     rubik = std::make_shared<Rubik>();
     shuffler = std::make_unique<RubikShuffler>(rubik);
     solver = std::make_unique<Solver>(rubik);
+    ground = std::make_shared<Ground>();
 }
 
 void App::timerFunction(int value)
@@ -107,7 +108,7 @@ void App::renderFunction()
     instance->shader->setVec3("fogColor", glm::vec3(0.2f, 0.2f, 0.2f)); // Fog color
     instance->shader->setFloat("density", 0.05f);
     instance->rubik->render(instance->shader, instance->deltaTime);
-
+    instance->ground->render(instance->shader);
     glutSwapBuffers();
 }
 

@@ -7,6 +7,7 @@
 #include "Shader.h"
 
 #include "CubeRenderer.h"
+#include "Ground.h"
 #include "Rubik.h"
 #include "RubikShuffler.h"
 #include "Solver.h"
@@ -26,6 +27,7 @@ class App
     std::unique_ptr<Camera> camera;
     std::shared_ptr<Shader> shader;
     std::shared_ptr<Rubik> rubik;
+    std::shared_ptr<Ground> ground;
 
     std::shared_ptr<RubikShuffler> shuffler;
     std::shared_ptr<Solver> solver;
