@@ -66,6 +66,8 @@ void App::keyboardFunction(unsigned char key, int x, int y)
         case 'B': {instance->rubik->performMove(Move::BACK_REVERSE, []{});break;}
         case '1': {instance->shuffler->shuffle(); break;}
         case '2': {instance->solver->run(); break;}
+        case '-': {instance->camera->decreaseDistance(); break;}
+        case '=': {instance->camera->increaseDistance(); break;}
         default: break;
     }
 }

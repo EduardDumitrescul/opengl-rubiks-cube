@@ -10,6 +10,7 @@
 class Camera
 {
     float distance = 15;
+    float distanceStep = 0.25;
     float horizontalAngle = 0;
     float horizontalAngleStep = 0.1;
     float verticalAngle = 0;
@@ -29,6 +30,10 @@ public:
     void moveUp();
 
     void moveDown();
+
+    void increaseDistance();
+
+    void decreaseDistance();
 
     glm::vec3 getPosition();
     

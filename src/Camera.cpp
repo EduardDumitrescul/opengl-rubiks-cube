@@ -33,6 +33,16 @@ void Camera::moveDown()
     verticalAngle = std::max(verticalAngle, -1.0f);
 }
 
+void Camera::increaseDistance()
+{
+    distance += distanceStep;
+}
+
+void Camera::decreaseDistance()
+{
+    distance -= distanceStep;
+}
+
 glm::mat4 Camera::getProjectionMatrix()
 {
     return glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
