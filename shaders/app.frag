@@ -20,6 +20,8 @@ out vec4 out_Color;
 uniform vec4 color;
 uniform vec3 lightColor;
 
+uniform vec3 fogColor;  // Fog color
+uniform float density;  // Fog density
 
 void main(void)
 {
@@ -48,5 +50,11 @@ void main(void)
   vec3 emission=vec3(0.0, 0.0, 0.0);
   //vec3 emission=vec3(1.0,0.8,0.4);
   vec3 result = emission + (ambient_term + diffuse_term + specular_term);
-  out_Color = vec4(result, 1);
+
+  float distance = length(inViewPos - FragPos);
+  float fogFactor = exp(-density * density * distance * distance);
+  fogFactor = clamp(fogFactor, 0.0, 1.0);
+  vec3 finalColor = fogFactor * vec3(color) + (1.0 - fogFactor) * fogColor;
+  
+  out_Color = vec4(finalColor, 1);
 }
