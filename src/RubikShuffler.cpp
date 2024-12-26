@@ -27,12 +27,12 @@ void RubikShuffler::shuffle()
         }
     }
 
-    for (auto move: shuffleMoves)
-    {
-        rubik->performMove(move, []{});
-    }
+    // for (auto move: shuffleMoves)
+    // {
+    //     rubik->performMove(move, []{});
+    // }
 
-    //performShuffleMoves(shuffleMoves, 0);
+    performShuffleMoves(shuffleMoves, 0);
 }
 
 void RubikShuffler::performShuffleMoves(const std::vector<Move>& shuffleMoves, int index)
