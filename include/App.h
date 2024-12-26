@@ -24,6 +24,8 @@ class App
     int lastTime = 0;
     int deltaTime = 0;
 
+    glm::vec3 lightPos = glm::vec3(10.0f, 20.0f, 10.0f);
+    
     std::unique_ptr<Camera> camera;
     std::shared_ptr<Shader> shader;
     std::shared_ptr<Rubik> rubik;

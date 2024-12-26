@@ -102,11 +102,25 @@ void App::renderFunction()
     
     instance->shader->use();
     instance->camera->setup(instance->shader);
-    instance->shader->setVec3("lightPos", glm::vec3(10.0f, 10.0f, 10.0f));
+    instance->shader->setVec3("lightPos", instance->lightPos);
     instance->shader->setVec3("viewPos", instance->camera->getPosition());
     instance->shader->setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
     instance->shader->setVec3("fogColor", glm::vec3(0.2f, 0.2f, 0.2f)); // Fog color
     instance->shader->setFloat("density", 0.05f);
+
+    float D = 9.9f;
+    glm::mat4 matrUmbra;
+
+    // Assuming the plane is y = 0
+    matrUmbra[0][0] = instance->lightPos.y + D; matrUmbra[0][1] = 0; matrUmbra[0][2] = 0; matrUmbra[0][3] = 0;
+    matrUmbra[1][0] = -instance->lightPos.x;   matrUmbra[1][1] = D;  matrUmbra[1][2] = -instance->lightPos.z; matrUmbra[1][3] = -1;
+    matrUmbra[2][0] = 0;                       matrUmbra[2][1] = 0;  matrUmbra[2][2] = instance->lightPos.y + D; matrUmbra[2][3] = 0;
+    matrUmbra[3][0] = -D * instance->lightPos.x; matrUmbra[3][1] = -D * instance->lightPos.y; matrUmbra[3][2] = -D * instance->lightPos.z; matrUmbra[3][3] = instance->lightPos.y;
+
+    // Pass the shadow matrix to the shader
+    instance->shader->setMat4("matrUmbra", matrUmbra);
+
+    
     instance->rubik->render(instance->shader, instance->deltaTime);
     instance->ground->render(instance->shader);
     glutSwapBuffers();

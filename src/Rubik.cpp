@@ -88,6 +88,7 @@ void Rubik::performMove(Move move, std::function<void()>onMoveFinished, bool ani
 void Rubik::render(std::shared_ptr<Shader> shader, int deltaTime)
 {
     animationManager->update(deltaTime);
+    shader->setBool("drawShadow", false);
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -97,6 +98,17 @@ void Rubik::render(std::shared_ptr<Shader> shader, int deltaTime)
             }
         }
     }
+    shader->setBool("drawShadow", true);
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            for (int k = 0; k < 3; k++) {
+                cubes[i][j][k]->render(shader);
+            }
+        }
+    }
+    shader->setBool("drawShadow", false);
 }
 
 void Rubik::cleanup()
