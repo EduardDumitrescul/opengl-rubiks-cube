@@ -106,7 +106,7 @@ void App::renderFunction()
     instance->shader->setVec3("viewPos", instance->camera->getPosition());
     instance->shader->setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
     instance->shader->setVec3("fogColor", glm::vec3(0.2f, 0.2f, 0.2f)); // Fog color
-    instance->shader->setFloat("density", 0.05f);
+    instance->shader->setFloat("density", 0.03f);
 
     float D = 9.9f;
     glm::mat4 matrUmbra;

@@ -27,7 +27,7 @@ void main(void)
 {
   if(drawShadow == false) {
     //  Ambient;
-    float ambientStrength = 0.5f;
+    float ambientStrength = 0.7f;
     vec3 ambient_light = ambientStrength * lightColor;          //  ambient_light=ambientStrength*lightColor; 
     vec3 ambient_term= ambient_light * vec3(color);             //  ambient_material=objectColor;
 
@@ -39,7 +39,7 @@ void main(void)
     vec3 diffuse_term = diff * diffuse_light * vec3(color);     //  diffuse_material=objectColor;
 
     //  Specular;
-    float specularStrength = 0.8f;
+    float specularStrength = 0.9f;
     float shininess = 32.0f;
     vec3 viewDir = normalize(inViewPos - FragPos);              //  versorul catre observator;
     vec3 reflectDir = normalize(reflect(-lightDir, norm));      //  versorul vectorului R;
@@ -48,7 +48,7 @@ void main(void)
     vec3 specular_term = spec * specular_light * vec3(color);   //  specular_material=objectColor;
 
     //  Culoarea finala; 
-    vec3 emission=vec3(0.0, 0.0, 0.0);
+    vec3 emission=vec3(0.1, 0.1, 0.1);
     //vec3 emission=vec3(1.0,0.8,0.4);
     vec3 result = emission + (ambient_term + diffuse_term + specular_term);
 
@@ -60,7 +60,11 @@ void main(void)
     out_Color = vec4(finalColor, 1);
   }
   else {
-    out_Color = vec4(0, 0, 0, 1);
+    float distance = length(inViewPos - FragPos);
+    float fogFactor = exp(-density * density * distance * distance);
+    fogFactor = clamp(fogFactor, 0.0, 1.0);
+    vec3 finalColor = fogFactor * vec3(0, 0, 0) + (1.0 - fogFactor) * fogColor;
+    out_Color = vec4(finalColor, 1);
   }
  
 }
