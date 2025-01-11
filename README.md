@@ -36,3 +36,6 @@ glm::quat deltaRotation = glm::angleAxis(glm::radians(90.0f) * sign, glm::vec3(0
     glm::quat rotation = {1,0 , 0, 0};
     glm::quat animationRotation = {1, 0, 0, 0};
 ```
+
+### Link Github
+[GitHub repository](https://github.com/EduardDumitrescul/opengl-rubiks-cube)

@@ -44,7 +44,7 @@ void Solver::run()
 
         for (const auto& move : moves)
         {
-            std::shared_ptr<Rubik> next = std::make_shared<Rubik>(*current);  // Use shared_ptr for move operation
+            std::shared_ptr<Rubik> next = std::make_shared<Rubik>(*current); 
             next->performMove(move, []{}, false);
                 
             if (distance.find(*next) == distance.end())  // If the state hasn't been visited yet
